@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { X, Copy, Check } from 'lucide-react';
+import { X, Copy, Check, ExternalLink } from 'lucide-react';
 import { AIPrompt } from '../types';
 
 interface PromptDetailModalProps {
@@ -16,6 +17,11 @@ const PromptDetailModal: React.FC<PromptDetailModalProps> = ({ prompt, onClose, 
     setCopied(true);
     if (onCopy) onCopy();
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleOpenGemini = () => {
+    // Standard link to Google Gemini app
+    window.open('https://gemini.google.com/app', '_blank');
   };
 
   return (
@@ -76,18 +82,28 @@ const PromptDetailModal: React.FC<PromptDetailModalProps> = ({ prompt, onClose, 
               </div>
             </div>
 
-            {/* Primary Action: Orange Copy Button */}
-            <button 
-              onClick={handleCopy}
-              className={`w-full py-6 rounded-[2.5rem] font-black uppercase text-xs tracking-[0.3em] flex items-center justify-center gap-4 transition-all active:scale-[0.98] shadow-2xl ${
-                copied 
-                  ? 'bg-white text-black' 
-                  : 'bg-[#FF9F1C] text-black hover:brightness-110 shadow-[0_0_30px_rgba(255,159,28,0.3)]'
-              }`}
-            >
-              {copied ? <Check size={20} className="animate-in zoom-in" /> : <Copy size={20} />}
-              {copied ? 'Directive Copied' : 'Copy Prompt'}
-            </button>
+            {/* Actions: Stacked for clarity and mobile focus */}
+            <div className="grid grid-cols-1 gap-4">
+              <button 
+                onClick={handleCopy}
+                className={`w-full py-6 rounded-[2.5rem] font-black uppercase text-xs tracking-[0.3em] flex items-center justify-center gap-4 transition-all active:scale-[0.98] shadow-2xl ${
+                  copied 
+                    ? 'bg-white text-black' 
+                    : 'bg-[#FF9F1C] text-black hover:brightness-110 shadow-[0_0_30px_rgba(255,159,28,0.3)]'
+                }`}
+              >
+                {copied ? <Check size={20} className="animate-in zoom-in" /> : <Copy size={20} />}
+                {copied ? 'Directive Copied' : 'Copy Prompt'}
+              </button>
+
+              <button 
+                onClick={handleOpenGemini}
+                className="w-full py-6 rounded-[2.5rem] font-black uppercase text-xs tracking-[0.3em] flex items-center justify-center gap-4 transition-all active:scale-[0.98] border border-white/10 text-white hover:bg-white/5"
+              >
+                <ExternalLink size={20} />
+                Open in Gemini
+              </button>
+            </div>
           </div>
         </div>
       </div>
