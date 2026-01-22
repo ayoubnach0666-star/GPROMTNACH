@@ -1,16 +1,17 @@
+
 import React from 'react';
 import { Search, Zap, Plus } from 'lucide-react';
 
 interface NavbarProps {
   searchQuery: string;
-  // Fix: Renamed setQuery to setSearchQuery to match usage in component and App.tsx
   setSearchQuery: (query: string) => void;
+  isAdmin?: boolean;
   onAddClick: () => void;
   onExploreClick: () => void;
   onJoinClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ searchQuery, setSearchQuery, onAddClick, onExploreClick, onJoinClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ searchQuery, setSearchQuery, isAdmin = false, onAddClick, onExploreClick, onJoinClick }) => {
   return (
     <nav className="sticky top-0 z-50 glass px-6 py-5">
       <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-3 items-center gap-4">
@@ -45,13 +46,15 @@ const Navbar: React.FC<NavbarProps> = ({ searchQuery, setSearchQuery, onAddClick
             Explore
           </button>
           
-          <button 
-            onClick={onAddClick}
-            className="p-3 glass rounded-xl text-zinc-500 hover:text-[#FF9F1C] transition-all active:scale-90"
-            title="Publish Asset"
-          >
-            <Plus size={20} />
-          </button>
+          {isAdmin && (
+            <button 
+              onClick={onAddClick}
+              className="p-3 glass rounded-xl text-zinc-500 hover:text-[#FF9F1C] transition-all active:scale-90 animate-in fade-in"
+              title="Publish Asset"
+            >
+              <Plus size={20} />
+            </button>
+          )}
           
           <button 
             onClick={onJoinClick}

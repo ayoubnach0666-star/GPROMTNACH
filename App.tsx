@@ -21,10 +21,21 @@ const App: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Simple Admin Logic: Check if the URL contains "?admin=true" or path is "/admin"
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Check for admin access via URL
+    const params = new URLSearchParams(window.location.search);
+    const path = window.location.pathname;
+    if (params.get('admin') === 'true' || path === '/admin') {
+      setIsAdmin(true);
+      console.log("G.PROMTNACH: Admin Mode Active");
+    }
   }, []);
 
   const showToast = (message: string) => {
@@ -57,6 +68,7 @@ const App: React.FC = () => {
       <Navbar 
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery} 
+        isAdmin={isAdmin}
         onAddClick={() => setIsAddModalOpen(true)}
         onExploreClick={scrollToGallery}
         onJoinClick={() => setIsJoinModalOpen(true)}
@@ -177,7 +189,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {isAddModalOpen && (
+      {isAdmin && isAddModalOpen && (
         <AddPromptModal 
           onClose={() => setIsAddModalOpen(false)}
           onAdd={handleAddPrompt}
