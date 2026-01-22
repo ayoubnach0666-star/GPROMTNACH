@@ -1,5 +1,6 @@
+
 import React, { useState, useRef } from 'react';
-import { X, Upload, Sparkles, Image as ImageIcon, Check } from 'lucide-react';
+import { X, Upload, Sparkles, Check } from 'lucide-react';
 import { AIPrompt, PromptCategory } from '../types';
 
 interface AddPromptModalProps {
@@ -36,14 +37,14 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, onAdd }) => {
     const newPrompt: AIPrompt = {
       id: Date.now().toString(),
       title: formData.title,
-      description: 'Community-contributed core asset',
+      description: 'Global Repository Asset',
       prompt: formData.prompt,
       shortPreview: formData.prompt.slice(0, 50) + '...',
       imageUrl: previewImage,
       category: formData.category,
-      author: 'Admin',
+      author: 'Creator',
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      tips: ['Optimized for Gemini Ultra v1.5', 'Tested at 1024x1024']
+      tips: ['Optimized for Gemini']
     };
 
     onAdd(newPrompt);
@@ -51,43 +52,35 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, onAdd }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-3xl animate-in fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/90 backdrop-blur-2xl animate-in fade-in" onClick={onClose} />
       
-      <div className="relative w-full max-w-xl glass border border-white/10 rounded-[3rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
-        <div className="p-10 pb-0 flex items-center justify-between">
-          <div className="flex items-center gap-5">
-            <div className="w-12 h-12 bg-[#FF9F1C]/10 rounded-2xl flex items-center justify-center text-[#FF9F1C] border border-[#FF9F1C]/20">
-              <Sparkles size={24} />
+      <div className="relative w-full max-w-xl bg-[#0B0B0F] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+        <div className="p-8 pb-0 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-[#FF9F1C]/10 rounded-xl flex items-center justify-center text-[#FF9F1C] border border-[#FF9F1C]/20">
+              <Sparkles size={20} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-white uppercase tracking-tighter">Admin Console</h2>
-              <p className="text-[10px] text-[#8B5E3C] font-bold uppercase tracking-widest">Publish to core repository</p>
+              <h2 className="text-xl font-black text-white uppercase tracking-tighter">Publish Asset</h2>
+              <p className="text-[9px] text-[#8B5E3C] font-bold uppercase tracking-widest">Add to Core Gallery</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-3 text-zinc-600 hover:text-white transition-colors">
+          <button onClick={onClose} className="p-2 text-zinc-600 hover:text-white transition-colors">
             <X size={24} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-10 space-y-8">
-          {/* Upload Box */}
+        <form onSubmit={handleSubmit} className="p-8 space-y-6">
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className="group relative h-56 border-2 border-dashed border-white/10 rounded-[2rem] flex flex-col items-center justify-center gap-4 hover:border-[#FF9F1C]/40 hover:bg-[#FF9F1C]/5 transition-all cursor-pointer overflow-hidden"
+            className="group relative h-48 border-2 border-dashed border-white/5 rounded-3xl flex flex-col items-center justify-center gap-3 hover:border-[#FF9F1C]/30 hover:bg-[#FF9F1C]/5 transition-all cursor-pointer overflow-hidden"
           >
             {previewImage ? (
-              <div className="w-full h-full relative">
-                <img src={previewImage} className="w-full h-full object-cover" alt="Preview" />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Replace Asset</p>
-                </div>
-              </div>
+              <img src={previewImage} className="w-full h-full object-cover" alt="Preview" />
             ) : (
               <div className="flex flex-col items-center text-center">
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-zinc-600 group-hover:text-[#FF9F1C] group-hover:scale-110 transition-all mb-4">
-                  <Upload size={28} />
-                </div>
-                <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Select Global Asset</p>
+                <Upload size={24} className="text-zinc-600 group-hover:text-[#FF9F1C] mb-2" />
+                <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Upload Asset Image</p>
               </div>
             )}
             <input 
@@ -99,22 +92,22 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, onAdd }) => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 ml-1">Asset Identity</label>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Asset Title</label>
               <input 
                 required
                 type="text"
-                placeholder="Name of asset"
-                className="w-full glass border border-white/10 rounded-2xl py-5 px-6 text-xs text-white focus:outline-none focus:border-[#FF9F1C]/50 transition-all placeholder:text-zinc-800"
+                placeholder="Enter title..."
+                className="w-full bg-white/5 border border-white/5 rounded-xl py-4 px-5 text-xs text-white focus:outline-none focus:border-[#FF9F1C]/50 transition-all placeholder:text-zinc-800"
                 value={formData.title}
                 onChange={e => setFormData({...formData, title: e.target.value})}
               />
             </div>
-            <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 ml-1">Classification</label>
+            <div className="space-y-2">
+              <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Category</label>
               <select 
-                className="w-full glass border border-white/10 rounded-2xl py-5 px-6 text-xs text-white focus:outline-none focus:border-[#FF9F1C]/50 transition-all appearance-none cursor-pointer"
+                className="w-full bg-white/5 border border-white/5 rounded-xl py-4 px-5 text-xs text-white focus:outline-none focus:border-[#FF9F1C]/50 transition-all appearance-none cursor-pointer"
                 value={formData.category}
                 onChange={e => setFormData({...formData, category: e.target.value as PromptCategory})}
               >
@@ -123,34 +116,25 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, onAdd }) => {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 ml-1">Gemini Directive</label>
+          <div className="space-y-2">
+            <label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Gemini Prompt</label>
             <textarea 
               required
-              rows={5}
-              placeholder="Paste full prompt engineering directive here..."
-              className="w-full glass border border-white/10 rounded-[2rem] py-5 px-6 text-xs text-[#CCCCCC] focus:outline-none focus:border-[#FF9F1C]/50 transition-all resize-none placeholder:text-zinc-800 leading-relaxed"
+              rows={4}
+              placeholder="Paste full prompt engineering directive..."
+              className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 px-5 text-xs text-zinc-400 focus:outline-none focus:border-[#FF9F1C]/50 transition-all resize-none placeholder:text-zinc-800"
               value={formData.prompt}
               onChange={e => setFormData({...formData, prompt: e.target.value})}
             />
           </div>
 
-          <div className="flex gap-4 pt-6">
-             <button 
-              type="button"
-              onClick={onClose}
-              className="flex-1 py-5 border border-white/10 text-zinc-500 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/5 hover:text-white transition-all"
-            >
-              Discard
-            </button>
-            <button 
-              type="submit"
-              className="flex-[2] bg-[#FF9F1C] text-black py-5 rounded-full font-black uppercase text-[10px] tracking-[0.3em] hover:brightness-110 transition-all active:scale-[0.98] shadow-2xl shadow-orange-500/20 flex items-center justify-center gap-3"
-            >
-              <Check size={16} />
-              Publish Asset
-            </button>
-          </div>
+          <button 
+            type="submit"
+            className="w-full bg-[#FF9F1C] text-black py-4 rounded-full font-black uppercase text-[10px] tracking-widest hover:brightness-110 transition-all active:scale-[0.98] shadow-xl shadow-orange-500/10 flex items-center justify-center gap-2"
+          >
+            <Check size={16} />
+            Publish to Gallery
+          </button>
         </form>
       </div>
     </div>
